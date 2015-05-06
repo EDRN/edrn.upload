@@ -1,0 +1,46 @@
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='edrn.upload'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>Uploader View</title>
+        <metal:style-slot fill-slot='style_slot'>
+            <link rel='stylesheet' type='text/css' media='all' href='#'
+                tal:attributes='href string:${portal_url}/++resource++edrn.upload/css/edrnUpload.css'/>
+        </metal:style-slot>
+    </head>
+    <body>
+        <metal:main fill-slot='content-core'>
+            <tal:content-core-macro metal:define-macro='content-core'
+                tal:define='numDatasets view/numDatasets'>
+
+                <p class='discreet' tal:condition='not:numDatasets' i18n:translate='noDatasetsInFolder'
+                    style='margin-top: 1em;'>
+                    There are no datasets in this container.
+                </p>
+
+                <div class='datasetList' tal:condition='numDatasets'>
+                    <ul tal:define='datasets view/datasets'>
+                        <li tal:repeat='dataset datasets'>
+                            <a href='#' title='dataset/Description' tal:attributes='href dataset/getURL'
+                                tal:content='dataset/Title'>
+                                Some dataset
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div tal:condition='view/showAddDatasetButton'>
+                    <a class='edrnUploadButton' href='#' tal:attributes='href view/addDatasetURL'
+                        title='Add a new dataset to this container' i18n:attributes='title'
+                        i18n:translate='addDataset'>
+                        Add Dataset
+                    </a>
+                </div>
+
+            </tal:content-core-macro>
+        </metal:main>
+    </body>
+</html>
