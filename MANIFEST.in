@@ -1,4 +1,5 @@
 include *.rst
 recursive-include docs *
 recursive-include src *.zcml *.xml *.png *.pt *.rst
+recursive-include external *
 exclude .gitignore
