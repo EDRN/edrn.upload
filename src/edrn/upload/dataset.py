@@ -9,7 +9,7 @@ from five import grok
 from plone.memoize.instance import memoize
 from plone.supermodel import model
 from zope import schema
-import anyjson, os, os.path, urllib
+import anyjson, os, os.path, urllib, urlparse
 
 
 class IDataset(model.Schema):
@@ -57,8 +57,9 @@ class View(grok.View):
     grok.require('zope2.View')
     def uploadURL(self):
         context = aq_inner(self.context)
-        # return u'var edrnUploadURL = "{}";'.format(context.absolute_url() + u'/@@upload')
-        return u'var edrnUploadURL = "{}";'.format(context.id + u'/@@upload') # ???
+        url = context.absolute_url()
+        path = urlparse.urlparse(url).path + u'/@@upload'
+        return u'var edrnUploadURL = "{}";'.format(path)
     def numFiles(self):
         return len(self.currentFiles())
     @memoize
