@@ -14,6 +14,17 @@
             <script type='text/javascript' src='#'
                 tal:attributes='src string:${portal_url}/++resource++edrn.upload/js/plupload.full.min.js'>
             </script>
+<!-- 
+            <script type='text/javascript' src='#'
+                tal:attributes='src string:${portal_url}/++resource++edrn.upload/js/moxie.js'>
+            </script>
+            <script type='text/javascript' src='#'
+                tal:attributes='src string:${portal_url}/++resource++edrn.upload/js/plupload.dev.js'>
+            </script>
+ -->
+            <script type='text/javascript' tal:content='view/uploadURL'>
+                var edrnUploadURL = "something/@@upload";
+            </script>
         </metal:javascript-head-slot>
     </head>
     <body>
@@ -22,6 +33,30 @@
                 isManager python:checkPermission("Manage Portal", context);
                 numFiles view/numFiles;
             '>
+                <table class='currentFilesHeading'>
+                    <tbody>
+                        <tr>
+                            <th>Principal Investigator:</th>
+                            <td tal:content='context/principalInvestigator'>Bob</td>
+                        </tr>
+                        <tr>
+                            <th>Site:</th>
+                            <td tal:content='context/siteName'>Bob's Place</td>
+                        </tr>
+                        <tr>
+                            <th>Curation Date:</th>
+                            <td tal:content='context/curationDate'>2010-01-01</td>
+                        </tr>
+                        <tr>
+                            <th>Metadata 1:</th>
+                            <td tal:content='context/metadata1'>1</td>
+                        </tr>
+                        <tr>
+                            <th>Metadata 2:</th>
+                            <td tal:content='context/metadata2'>2</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <h3 class='currentFilesHeading'>Current Files</h3>
                 <p class='discreet' tal:condition='not:numFiles'>
                     There are no files uploaded to this dataset.
@@ -86,7 +121,7 @@
                 <script type='text/javascript'>
                     var uploader = new plupload.Uploader({
                         browse_button: 'browse',
-                        url: '@@upload',
+                        url: edrnUploadURL,
                         max_retries: 5,
                         drop_element: 'visual-portal-wrapper',
                         filters: {

@@ -24,12 +24,41 @@ class IDataset(model.Schema):
         description=_(u'An abstract about this data.'),
         required=False,
     )
-
+    principalInvestigator = schema.TextLine(
+        title=_(u'Principal Investigator'),
+        description=_(u'Name of the PI whose project generated this dataset.'),
+        required=False,
+    )
+    siteName = schema.TextLine(
+        title=_(u'Site Name'),
+        description=_(u'Name of the institution that produced this dataset.'),
+        required=False,
+    )
+    curationDate = schema.Date(
+        title=_(u'Curation Date'),
+        description=_(u'Date this dataset was first curated.'),
+        required=False,
+    )
+    metadata1 = schema.TextLine(
+        title=_(u'Metadata 1'),
+        description=_(u'Some bit of other metadata.'),
+        required=False,
+    )
+    metadata2 = schema.TextLine(
+        title=_(u'Metadata 2'),
+        description=_(u'Another bit of metadata.'),
+        required=False,
+    )
+    
 
 class View(grok.View):
     u'''View for a dataset'''
     grok.context(IDataset)
     grok.require('zope2.View')
+    def uploadURL(self):
+        context = aq_inner(self.context)
+        # return u'var edrnUploadURL = "{}";'.format(context.absolute_url() + u'/@@upload')
+        return u'var edrnUploadURL = "{}";'.format(context.id + u'/@@upload') # ???
     def numFiles(self):
         return len(self.currentFiles())
     @memoize
